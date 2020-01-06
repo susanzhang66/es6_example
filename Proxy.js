@@ -1,11 +1,17 @@
 /*
  * @Author: your name
  * @Date: 2020-01-03 17:53:48
- * @LastEditTime: 2020-01-03 17:58:22
- * @LastEditors: your name
+ * @LastEditTime : 2020-01-06 14:29:51
+ * @LastEditors  : Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /miniProgram/Users/rainbow/Documents/工作/前端/learn/es6/Proxy.js
  */
+
+// 语法结构：var proxy = new Proxy(target, handler);
+
+// 
+// Proxy 用于修改某些操作的默认行为，等同于在语言层面做出修改，所以属于一种“元编程”（meta programming），即对编程语言进行编程。
+
 
 // 下面是 Proxy 支持的拦截操作一览，一共 13 种。
 
@@ -49,6 +55,7 @@ obj.count = 1
  * @param {type} 
  * @return: 
  */
+// 设置到了 属性上，也是可以拦截到效果
 var object = { proxy: new Proxy(target, handler) };
 
 /**
@@ -64,3 +71,36 @@ var proxy = new Proxy({}, {
   
   let obj = Object.create(proxy);
   obj.time // 35   读到原型上去了
+
+
+
+/**
+ * @description:  多个操作到拦截 示例
+ * @param {type} 
+ * @return: 
+ */
+var handler = {
+  get: function(target, name) {
+    if (name === 'prototype') {
+      return Object.prototype;
+    }
+    return 'Hello, ' + name;
+  },
+
+  apply: function(target, thisBinding, args) {
+    return args[0];
+  },
+
+  construct: function(target, args) {
+    return {value: args[1]};
+  }
+};
+
+var fproxy = new Proxy(function(x, y) {
+  return x + y;
+}, handler);
+
+fproxy(1, 2) // 1
+new fproxy(1, 2) // {value: 2}
+fproxy.prototype === Object.prototype // true
+fproxy.foo === "Hello, foo" // true
