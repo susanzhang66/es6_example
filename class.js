@@ -25,11 +25,12 @@
 
 // 6.new.target 属性
 //     如果构造函数不是通过new命令或Reflect.construct()调用的，new.target会返回undefined，因此这个属性可以用来确定构造函数是怎么调用的。
+    // 子类继承父类时，new.target会返回子类。
 
 // 注意点
 // （1）严格模式
 // （2）不存在提升
-// （3）name 属性
+// （3）name 属性： class关键字后面的类名。
 // （4）Generator 方法
 // （5）this 的指向： 使用箭头函数。箭头函数内部的this总是指向定义时所在的对象。
 //     类的方法内部如果含有this，它默认指向类的实例。但是，必须非常小心，一旦单独使用该方法，很可能报错。
@@ -392,10 +393,11 @@ class Foo {
 
 
 /**
- * @description:  new target
+ * @description:  new target  new.target === Person
  * @param {type} 
  * @return: 
  */
+// new.target === Person
 function Person(name) {
     if (new.target !== undefined) {
       this.name = name;
@@ -415,3 +417,35 @@ function Person(name) {
   
   var person = new Person('张三'); // 正确
   var notAPerson = Person.call(person, '张三');  // 报错
+
+
+/**
+ * @description: 不存在提升。
+ * @param {type} 
+ * @return: 
+ */
+new Foo(); // ReferenceError
+class Foo {}
+
+
+/**
+ * @description: Generator 方法
+ * @param {type} 
+ * @return: 
+ */
+class Foo {
+    constructor(...args) {
+      this.args = args;
+    }
+    * [Symbol.iterator]() {   //Generator 方法
+      for (let arg of this.args) {
+        yield arg;
+      }
+    }
+  }
+  
+  for (let x of new Foo('hello', 'world')) {
+    console.log(x);
+  }
+  // hello
+  // world

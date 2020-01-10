@@ -1,11 +1,4 @@
-/*
- * @Author: your name
- * @Date: 2020-01-03 17:53:48
- * @LastEditTime : 2020-01-06 14:29:51
- * @LastEditors  : Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /miniProgram/Users/rainbow/Documents/工作/前端/learn/es6/Proxy.js
- */
+
 
 // 语法结构：var proxy = new Proxy(target, handler);
 

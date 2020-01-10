@@ -1,4 +1,37 @@
+// Iterator 与 for of
+// **原生具备 Iterator 接口的数据结构如下:**
+// * Array
+// * Map
+// * Set
+// * String
+// * TypedArray
+// * 函数的 arguments 对象
+// * NodeList 对象
+// * `对象（Object）没有默认部署 Iterator 接口`
+
+// * **return方法**  (可选)
+// * **throw方法**（可选）
+
+// **默认的 Iterator 接口**部署在数据结构的Symbol.iterator属性，`Symbol.iterator`属性是一个函数
+
+// **调用 Iterator 接口的场合**
+// （1）解构赋值
+// （2）扩展运算符
+// （3）yield*
+// （4） 其它：
+// for...of
+// Array.from()
+// Map(), Set(), WeakMap(), WeakSet()（比如new Map([['a',1],['b',2]])）
+// Promise.all()
+// Promise.race()
+
+// 用Array.from方法 解决类数组 for of遍历问题。
+
+// 写遍历器对象生成函数，那么next方法是必须部署的，return方法和throw方法是否部署是可选的。
+
+
 // 类  部署 Iterator 接口的写法 ，也可以部署在原型上。
+
 class RangeIterator {
     constructor(start, stop) {
       this.value = start;
@@ -211,7 +244,7 @@ function* entries(obj) {
     for (let key of Object.keys(obj)) {
       yield [key, obj[key]];
     }
-  }
+}
   
   for (let [key, value] of entries(obj)) {
     console.log(key, '->', value);
