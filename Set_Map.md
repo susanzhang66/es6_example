@@ -1,4 +1,4 @@
-Set与 Map
+## Set与 Map
 
 不计入垃圾回收机制：自动删除，不会保留吧，避免内存泄漏
 内存泄漏的例子
@@ -16,18 +16,18 @@ arr [0] = null;
 arr [1] = null;
 ```
 
-**Set**   类数组的构造函数。
-    类数组，成员是唯一的，无重复的，是一个构造函数。 
-    判断是否重复 有个算法是“Same-value-zero equality”，它类似于精确相等运算符（===），但NaN他认为是相等的。2个对象是不想等的。
-    参数可以是 数组或者具有 iterable 接口的其他数据结构。
-    Array.from方法可以将 Set 结构转为数组。
-    遍历是有次序的，按插入的顺序。
-    set结构的遍历器生成函数就是它的values方法。可以省略values方法，直接用for...of循环遍历 Set。
-**Set应用**：
+## **Set**   成员唯一的类数组。
+  - `类数组，成员是唯一的，无重复的，是一个构造函数。 `
+  - 判断是否重复 有个算法是“Same-value-zero equality”，它类似于精确相等运算符（===），但NaN他认为是相等的。2个对象是不想等的。
+  - 参数可以是 数组或者具有 iterable 接口的其他数据结构。
+  - Array.from方法可以将 Set 结构转为数组。
+  - 遍历是有次序的，按插入的顺序。
+  - set结构的遍历器生成函数就是它的values方法。可以省略values方法，直接用for...of循环遍历 Set。
+## **Set应用**：
  - 扩展运算符：...,：可以去除数组的重复成员。
  - 可以用 for of循环。
  - 实现并集（Union）、交集（Intersect）和差集（Difference）。
- - Array.from方法。直接可以转换成数组。
+ - `Array.from方法`。直接可以转换成数组。
 **Set的属性与方法：**
 - Set.prototype.constructor：构造函数，默认就是Set函数。
 - Set.prototype.size：返回Set实例的成员总数。
@@ -43,10 +43,9 @@ arr [1] = null;
 - Set.prototype.forEach()：使用回调函数遍历每个成员
 
 
-**WeakSet**   成员只能是对象的 构造函数。
-- WeakSet 的成员只能是对象，而不能是其他类型的值。
-- 首先，WeakMap只接受对象作为键名（null除外），不接受其他类型的值作为键名。
-- 其次，WeakMap的键名所指向的对象，不计入垃圾回收机制。  --- 不懂。。
+## **WeakSet**  不重复的值的集合、成员只能是对象、不计入垃圾回收机制
+-  成员只能是对象的 构造函数。并且它是不计入垃圾回收机制。
+- WeakSet 的成员只能是对象，而不能是其他类型的值。-- 参数只能是数组或者类数组对象，或者具备iterator接口的对象。
 - 三。不可遍历。-- WeakSet 没有size属性，没有办法遍历它的成员。-- 成员都是弱引用，随时可能消失，遍历机制无法保证成员的存在，很可能刚刚遍历结束，成员就取不到了。
 - 具有 Iterable 接口的对象，都可以作为 WeakSet 的参数。
 **WeakSet 方法：**
@@ -56,21 +55,38 @@ arr [1] = null;
 
 **WeakSet应用：dom集合**
 
+## weakSet的应用示例：防止内存泄露。
+```javascript
+//保证了Foo的实例方法，只能在Foo的实例上调用。
+const foos = new WeakSet()
+class Foo {
+  constructor() {
+    foos.add(this)
+  }
+  method () {
+    if (!foos.has(this)) {
+      throw new TypeError('Foo.prototype.method 只能在Foo的实例上调用！');
+    }
+  }
+}
+```
 
-**Map**: 它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。**(key值可以是任意值的 对象。)**
-    参数：数组，或任何具有 Iterator 接口、且每个成员都是一个**双元素的数组**的数据结构。
+
+## **Map**: 
+  它类似于对象，也是`键值对的集合，`但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。**(key值可以是任意值的 对象。)**
+    **参数**：数组，或任何具有 Iterator 接口、且每个成员都是一个**双元素的数组**的数据结构。
     对同一个对象的引用，Map 结构才将其视为同一个键。
     使用扩展运算符 转换 成数组。
 **Map应用**：
     Map 的键实际上是跟内存地址绑定的，-- 可以解决第三方库同名属性一样的冲突问题。（简单类型的值（数字、字符串、布尔值）视为同一个键）
-**Map的属性和操作**
+## **Map的属性和操作**
 - （1） size 属性
 - （2） Map.prototype.set(key, value)： 返回的是整个map解构，可以链式操作。
 - （3） Map.prototype.get(key)
 - （4） Map.prototype.has(key)：返回一个布尔值，表示某个键是否在当前 Map 对象之中。
 - （5） Map.prototype.delete(key)：delete方法删除某个键，返回true。如果删除失败，返回false。
 - （6） Map.prototype.clear() clear方法清除所有成员，没有返回值。
-**Map遍历操作：**：Map 的遍历顺序就是插入顺序。
+## **Map遍历操作：**：Map 的遍历顺序就是插入顺序。
 - Map.prototype.keys()：返回键名的遍历器。
 - Map.prototype.values()：返回键值的遍历器。
 - Map.prototype.entries()：返回所有成员的遍历器。 --  Map 结构的默认遍历器接口（Symbol.iterator属性），就是entries方法。
@@ -84,13 +100,14 @@ arr [1] = null;
 **与其他数据结构的互相转换**
 Map, Array, Object, Json,
 
-**WeakMap**
-**WeakMap与Map的区别有两点。**
+## **WeakMap**
+**WeakMap与Map的区别有两点。** 
   - 首先，WeakMap只接受对象作为键名（null除外），数组可以。
   - 其次，WeakMap的键名所指向的对象，不计入垃圾回收机制.（注意，WeakMap 弱引用的只是键名，而不是键值。） -- 避免内存泄漏，不用手动删除，自动删除。
 **WeakMap 与 Map 在 API 上的区别**
   - 一是没有遍历操作（即没有keys()、values()和entries()方法），也没有size属性。
-  - 二是无法清空，即不支持clear方法。因此，WeakMap只有四个方法可用：get()、set()、has()、delete()。
+  - 二是无法清空，即不支持clear方法。
+  - WeakMap只有四个方法可用：get()、set()、has()、delete()。
   
 **weakmap的应用**
 1. dom引用
@@ -101,16 +118,16 @@ Map, Array, Object, Json,
 
 
 ```javascript
-// 例一   构造函数 -- 数组入参
+// 例一   构造函数 -- 数组入参 元素是唯一的
 const set = new Set([1, 2, 3, 4, 4]);
 [...set]
 // [1, 2, 3, 4]
 
-// 例二 构造函数 -- 数组入参
+// 例二 构造函数 -- 数组入参 元素是唯一的
 const items = new Set([1, 2, 3, 4, 5, 5, 5, 5]);
 items.size // 5
 
-// 例三 构造函数 -- iterable接口入参
+// 例三 构造函数 -- iterable接口入参 元素是唯一的
 const set = new Set(document.querySelectorAll('div'));
 set.size // 56
 
@@ -135,11 +152,12 @@ const array = Array.from(items);
 // 去除数组的重复成员
 [...new Set(array)]
 // 去除字符串里面的重复字符。
-[...new Set('ababbc')].join('')
+[...new Set('ababbc')]   // [a,b,c]
+[...new Set('ababbc')].join('')  //"abc"
 // "abc"
 
 /**
- * @description:   NaN不等于自身，2个对象不相等。
+ * @description:   在 Set 内部，两个NaN是相等的。 内部不会发生类型转换，判断标准是===运算符。
  * @param {type} 
  * @return: 
  */
@@ -195,10 +213,44 @@ let intersect = new Set([...a].filter(x => b.has(x)));
 let difference = new Set([...a].filter(x => !b.has(x)));
 // Set {1}
 
+/**
+ * @description: set默认可遍历，后iterator接口，默认是values
+ * @param {type} 
+ * @return: 
+ */
+Set.prototype[Symbol.iterator] === Set.prototype.values
+// 意味可以省略 values()方法来遍历。
+
+let set = new Set(['red', 'green', 'blue']);
+
+for (let x of set) {
+  console.log(x);
+}
+// red
+// green
+// blue
+// true
+
 
 /**
- * @description:  weakSet 参数
- * @param {type}   数组或类似数组的对象
+ * @description: 同步改变set结构的方式。。只有重新定义new set();
+ * @param {type} 
+ * @return: 
+ */
+// 方法一
+let set = new Set([1, 2, 3]);
+set = new Set([...set].map(val => val * 2));
+// set的值是2, 4, 6
+
+// 方法二
+let set = new Set([1, 2, 3]);
+set = new Set(Array.from(set, val => val * 2));
+// set的值是2, 4, 6
+
+// -------------------------------------------------
+/**
+ * @description:  weakSet 参数... 首先，WeakSet 的成员只能是对象，而不能是其他类型的值。、
+ * @param {type}   参数只能是数组或类似数组的对象，或者具有iterator接口的对象
  * @return: 
  */
 const a = [[1, 2], [3, 4]];  //a里面是引用，所以不会报错
@@ -209,6 +261,7 @@ const ws = new WeakSet(a);
 const b = [3, 4];  //b的成员不是对象，所以报错。
 const ws = new WeakSet(b);
 // Uncaught TypeError: Invalid value used in weak set(…)
+
 
 
 /**
@@ -237,7 +290,7 @@ ws.forEach(function(item){ console.log('WeakSet has ' + item)})
 
 
 /**
- * @description: 避免内存泄漏问题。
+ * @description: 避免内存泄漏问题。  不计入垃圾回收机制。
  * @param {type} 
  * @return: 
  */
@@ -254,8 +307,8 @@ class Foo {
 }
 
 /**
- * @description:  key值是对象的 weakSet
- * @param {type} 
+ * @description:  key值是对象的 
+ * @param {type} 它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。
  * @return: 
  */
 const m = new Map();
@@ -267,6 +320,28 @@ m.get(o) // "content"
 m.has(o) // true
 m.delete(o) // true
 m.has(o) // false
+
+
+/**
+ * @description: 它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。
+ * @param {type} 参数也可以是数组， 不仅仅是数组，任何具有 Iterator 接口、且每个成员都是一个双元素的数组的数据结构（详见《Iterator》一章）都可以当作Map构造函数的参数。这就是说，Set和Map都可以用来生成新的 Map。
+ * @return: 
+ */
+const map = new Map([
+  ['name', '张三'],
+  ['title', 'Author']
+]);
+// 以上的结果类似于下面的操作
+const items = [
+  ['name', '张三'],
+  ['title', 'Author']
+];
+
+const map = new Map();
+
+items.forEach(
+  ([key, value]) => map.set(key, value)
+);
 
 /**
  * @description: 
@@ -286,12 +361,12 @@ m3.get('baz') // 3
 
 /**
  * @description:  对同一个对象对引用，map才视为同一键值。
- * @param {type} 
+ * @param {type} 它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。
  * @return: 
  */
 const map = new Map();
 
-map.set(['a'], 555);
+map.set(['a'], 555);  
 map.get(['a']) // undefined
 //---------  同一个键 的问题。  NaN还是相等的。
 let map = new Map();
@@ -433,6 +508,7 @@ Map, Array, Object, Json,
 const myMap = new Map()
   .set(true, 7)
   .set({foo: 3}, ['abc']);
+
 [...myMap]
 // [ [ true, 7 ], [ { foo: 3 }, [ 'abc' ] ] ]
 

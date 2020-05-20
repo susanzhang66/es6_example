@@ -1,11 +1,11 @@
-  **1. 数组的解构赋值** ：模式匹配：左右2边模式要匹配，并且右边要 可遍历解构（iterator接口的，包括set,generator函数）
+##  **1. 数组的解构赋值** ：模式匹配：左右2边模式要匹配，并且右边要 可遍历解构（iterator接口的，包括set,generator函数）
   
 - “模式匹配”，只要等号两边的模式相同，(右边)
 - 解构不成功，变量的值就等于undefined。
 - 如果等号的右边不是数组（不可遍历的解构，iterator）会报错
 - 只要某种数据结构具有 Iterator 接口，都可以采用数组形式的解构赋值。
-- 解构赋值允许指定默认值。(只有是undefined,默认值才会生效)
-- 默认值是一个表达式则惰性求值，用到才运行
+- 解构赋值允许指定默认值。(右边的值只有是undefined,默认值才会生效)
+- 默认值是一个表达式则惰性求值，用到才运行。
 - 不完全解构，即等号左边的模式，只匹配一部分的等号右边的数组。
 - Set 结构，也可以使用数组的解构赋值。
 
@@ -26,16 +26,16 @@
 **3.字符串的解构赋值** ：字符串被转换成了一个类似数组的对象。
 
 **4.数值和布尔值的解构赋值**
-- 等号右边是数值和布尔值，则会先转为对象。
+- 等号右边是数值和布尔值，则会先转为对象。toString
 - 等号右边的值不是对象或数组，就先将其转为对象。
-- （右边等于null, undefined会报错）
+- （右边等于null, undefined会报错）因为它们不会转化为对象。
 
 **5.函数参数的解构赋值**
 - 1.传入参数的那一刻，数组参数就被解构成变量
 - 2.undefined就会触发函数参数的默认值。
 
-**圆括号问题**
- 是表达式 还是 模式？？？-- 尽量不要在模式中放圆括号。
+## **圆括号问题**  不要是赋值语句，一般没有问题？？
+ 是表达式 还是 模式  
     
 **不能使用圆括号的情况**  
     1）变量声明语句
@@ -87,24 +87,36 @@ function* fibs() {
 let [first, second, third, fourth, fifth, sixth] = fibs();
 sixth // 5
 
+//另一种情况
+let [a, [b], d] = [1, [2, 3], 4];
+a // 1
+b // 2
+d // 4
 
 /**
- * @description: 解构赋值允许指定默认值。(只有是undefined,默认值才会生效)
+ * @description: 解构赋值允许指定默认值。(右边只有是undefined,默认值才会生效)
  * @param {type} 
  * @return: 
  */
+let [x = 1] = [undefined];
+x // 1
+
+let [x = 1] = [null];
+x // null
+
 
 let [foo = true] = [];
 foo // true
 
 let [x, y = 'b'] = ['a']; // x='a', y='b'
 let [x, y = 'b'] = ['a', undefined]; // x='a', y='b'
+
 // 默认值是表达式，惰性求值。
 function f() {
   console.log('aaa');
 }
 
-let [x = f()] = [1];
+let [x = f()] = [1];  // 1
 
 
 /**
@@ -232,12 +244,14 @@ len // 5
  * @param {type} 
  * @return: 
  */
+//这个由于 number,boolean都有toString方法，它会把自己现转化为对象。
 let {toString: s} = 123;
 s === Number.prototype.toString // true
 
 let {toString: s} = true;
 s === Boolean.prototype.toString // true
 
+//由于undefiend,null没有 转换对象，所以会报错。
 let { prop: x } = undefined; // TypeError
 let { prop: y } = null; // TypeError
 
@@ -260,7 +274,13 @@ move({x: 3}); // [3, 0]
 move({}); // [0, 0]
 move(); // [0, 0]
 
-//这种是 为函数参数，赋值默认值，（不是传参时候的解构。）
+
+/**
+ * @description: 这个是函数参数的默认值，不是结构的默认值。
+ * @param {type} 
+ * @return: 
+ */
+//这种是 为函数参数，赋值默认值，（不是结构的默认值）
 function move({x, y} = { x: 0, y: 0 }) {
   return [x, y];
 }
@@ -287,7 +307,7 @@ move(); // [0, 0]
  * @param {type} 
  * @return: 
  */
-// 全部报错
+// 全部报错-- 模式不可以用圆括号。
 let [(a)] = [1];
 
 let {x: (c)} = {};
@@ -309,8 +329,8 @@ function f([z,(x)]) { return x; }
 // 报错
 [({ p: a }), { x: c }] = [{}, {}];
 /**
- * @description: 可以使用圆括号
- * 赋值语句的非模式部分，可以使用圆括号。  --- 感觉像 把括号放在 定义的属性上就可以
+ * @description: 可以使用圆括号--- 首先它们不是声明语句，而是赋值语句。
+ * 赋值语句的非模式部分，可以使用圆括号。  
  * @param {type} 
  * @return: 
  */
@@ -417,6 +437,20 @@ for (let [key, value] of map) {
 // first is hello
 // second is world
 
+/**
+ * @description: 这里只获取 key或者value的写法
+ * @param {type} 
+ * @return: 
+ */
+// 获取键名
+for (let [key] of map) {
+  // ...
+}
+
+// 获取键值
+for (let [,value] of map) {
+  // ...
+}
 // -----
 /**
  * @description: （7）输入模块的指定方法

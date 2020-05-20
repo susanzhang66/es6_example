@@ -90,7 +90,7 @@ class Point {
   }
 
   /**
-   * @description: 由于this指向子类实例，所以如果通过super对某个属性赋值，这时super就是this，赋值的属性会变成子类实例的属性。
+   * @description: 由于this指向子类实例，所以如果通过super对某个属性赋值，这时super就是this，赋值的属性会变成子类实例的属性。--- 不是很明白
    * @param {type} 
    * @return: 
    */  

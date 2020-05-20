@@ -187,7 +187,7 @@ let obj = {
   //  ["enum", "nonEnum", Symbol(my_key)]
 
 /**
- * @description: // Symbol.for(): 获取相同的Symbol值。 Symbol.keyFor()：返回一个已登记的 Symbol 类型值的key。
+ * @description: // Symbol.for(): 获取相同的Symbol值。
  * @param {type} 
  * @return: 
  */
@@ -197,6 +197,11 @@ Symbol.for("bar") === Symbol.for("bar")
 Symbol("bar") === Symbol("bar")
 // false
 
+/**
+ * @description:  Symbol.keyFor()：返回一个已登记的 Symbol 类型值的key。
+ * @param {type} 
+ * @return: 
+ */
 let s1 = Symbol.for("foo");
 Symbol.keyFor(s1) // "foo"
 

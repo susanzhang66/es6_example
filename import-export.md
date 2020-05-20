@@ -1,34 +1,34 @@
 
-**ES6 模块**
-    静态化，编译时确定依赖，和输出输入变量。  动态更新
-**CommonJS 和 AMD 模块**
-    运行时加载。  -- 不能动态更新
+## **ES6 模块**
+    静态化，编译时确定依赖，和输出输入变量。  `动态更新`
+## **CommonJS 和 AMD 模块**
+    运行时加载。--`不能动态更新`
     require是运行时加载模块，import命令无法取代require的动态加载功能。
      < ES2020提案 引入import()函数，支持动态加载模块。>  import(specifier):import()返回一个 Promise 对象。
-**export 命令**
-    export输出的变量就是本来的名字，但是可以使用as关键字重命名。
-    export必须与模块内部的变量建立一一对应关系。接口名与模块内部变量之间，建立了一一对应的关系。
-    export命令可以出现在模块的任何位置，只要处于模块顶层就可以。
+## **export 命令**
+  - export输出的变量就是本来的名字，但是可以使用as关键字重命名。
+  - export必须与模块内部的变量建立一一对应关系。接口名与模块内部变量之间，建立了一一对应的关系。
+  - export命令可以出现在模块的任何位置，只要处于模块顶层就可以。
 
 
-**import命令：**
-    大括号里面的变量名，必须与被导入模块（profile.js）对外接口的名称相同。除非是export default输出的不用
-    使用as关键字，将输入的变量重命名。
-    import命令输入的变量都是只读的，即不允许修改输入接口。 但是，如果是一个对象，可以改写对象的属性
-    import的路径可以是相对，也可以是绝对路径
-    import命令具有提升效果，会提升到整个模块的头部，首先执行。
-    import命令 不能用表达式，因为它是静态化确定的，不能像运行时才确定的
-    import语句会执行所加载的模块
-    CommonJS 模块的require命令和 ES6 模块的import命令 可以同时使用，但es6是最早执行的，可能会得到非预期结果
-    模块的整体加载： import * as circle from './circle'; 注意是静态分析的，不允许修改circle。
+## **import命令：**
+  - 大括号里面的变量名，必须与被导入模块（profile.js）对外接口的名称相同。`除非是export default输出的不用`
+  - 使用as关键字，将输入的变量重命名。
+  - import命令输入的变量都是只读的，即不允许修改输入接口。 但是，如果是一个对象，可以改写对象的属性
+  - import的路径可以是相对，也可以是绝对路径
+  - `import命令具有提升效果，会提升到整个模块的头部，首先执行。`
+  - `import命令 不能用表达式，因为它是静态化确定的，不能像运行时才确定的`
+  - import语句会执行所加载的模块
+  - CommonJS 模块的require命令和 ES6 模块的import命令 可以同时使用，`但es6是最早执行的，可能会得到非预期结果`
+  - 模块的整体加载： import * as circle from './circle'; 注意是静态分析的，不允许修改circle。
 
 
-**export default 命令**
-    import命令可以为匿名函数指定任意名字。前提是export default输出的。这时import命令后面，不使用大括号。
-    export default 命令后面不能跟变量声明语句。因为default就是变量了。
-    export default后面可以是一个 值。因为本质是后面的值用来赋值给default变量。
-    export default也可以用来输出类。
-    可以同时import输入 export、export default的输出。
+## **export default 命令**
+  - import命令可以为匿名函数指定任意名字。前提是export default输出的。``这时import命令后面，不使用大括号。``
+  - `export default 命令后面不能跟变量声明语句。因为default就是变量了。`
+  - export default后面可以是一个 值。因为本质是后面的值用来赋值给default变量。
+  - export default也可以用来输出类。
+  - 可以同时import输入 export、export default的输出。
 **export 与 import 的复合写法**
 
 **模块的继承**
@@ -44,6 +44,11 @@ ES2020提案 引入import()函数，支持动态加载模块。 import(specifier
 
 
 ```javascript
+/**
+ * @description: export必须与模块内部的变量建立一一对应关系。接口名与模块内部变量之间，建立了一一对应的关系。
+ * @param {type} 
+ * @return: 
+ */
 // profile.js
 var firstName = 'Michael';
 var lastName = 'Jackson';
@@ -54,7 +59,7 @@ export { firstName, lastName, year };
 
 
 /**
- * @description: export输出重命名
+ * @description: export输出重命名--- export输出的变量就是本来的名字，但是可以使用as关键字重命名。
  * @param {type} 
  * @return: 
  */
@@ -84,7 +89,7 @@ import { lastName as surname } from './profile.js';
  * @param {type} 
  * @return: 
  */
-// 报错
+// 报错-- 因为是静态化确定输入的，
 import { 'f' + 'oo' } from 'my_module';
 
 // 报错
@@ -236,7 +241,7 @@ import(`./section-modules/${someVariable}.js`)
   .catch(err => {
     main.textContent = err.message;
   });
-  //动态的 路径
+  //动态的 路径,,,异步的。。
   import(f())
   .then(...);
 
